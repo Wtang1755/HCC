@@ -1,0 +1,52 @@
+def calculate_room_capacity(length, width, height, floor_space_per_person, height_per_person, weight_per_person):
+    # Convert the room dimensions from feet to meters
+    length = length * 0.3048
+    width = width * 0.3048
+    height = height * 0.3048
+    
+    # Calculate the total floor area of the room
+    floor_area = length * width
+    
+    # Convert the floor space per person from inches squared to meters squared
+    floor_space_per_person = floor_space_per_person * 0.00064516
+    
+    # Convert the height per person from inches to meters
+    height_per_person = height_per_person * 0.0254
+    
+    # Convert the weight per person from pounds to kilograms
+    weight_per_person = weight_per_person * 0.453592
+    
+    # Calculate the maximum number of people that can fit based on the floor area
+    max_people_floor = floor_area // floor_space_per_person
+    
+    # Calculate the maximum number of people that can fit based on the height
+    max_people_height = height // height_per_person
+    
+    # Calculate the maximum number of people that can fit based on the weight
+    max_people_weight = (length * width * height) // weight_per_person
+    
+    # Return the minimum of the three values as the room capacity
+    return min(max_people_floor, max_people_height, max_people_weight)
+
+# Example usage
+room_length = 10  # in feet
+room_width = 8  # in feet
+room_height = 9  # in feet
+floor_space_per_person = 18  # in inches squared
+height_per_person = 70  # in inches
+weight_per_person = 144000  # in inches cubed
+
+person_height = 70  # in inches
+person_weight = 165  # in pounds
+
+person_floor_space = person_height * person_weight * 0.005  # assuming an average BMI of 25
+
+room_capacity = calculate_room_capacity(room_length, room_width, room_height, floor_space_per_person, height_per_person, weight_per_person)
+
+if (person_height * person_weight) // (height_per_person * person_weight) == 0:
+    person_capacity = 0
+else:
+    person_capacity = room_capacity // ((person_height * person_weight) // (height_per_person * person_weight))
+
+print(f"The room can fit {room_capacity} people.")
+print(f"A person with height {person_height} inches and weight {person_weight} pounds can fit in the room {person_capacity} times.")
